@@ -2,6 +2,7 @@ ARG img=debian/eol:wheezy
 # hadolint ignore=DL3006
 FROM ${img}
 ARG img
+ARG bootstrap_ruby
 
 RUN uname -a
 
@@ -28,7 +29,15 @@ RUN apt-get update \
       patch \
       procps \
       zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && if [ -n "${bootstrap_ruby}" ]; then \
+      gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
+      && curl -L https://get.rvm.io | bash -s stable --ruby="${bootstrap_ruby}"; \
+    fi
+
+# ENV PATH=/usr/local/rvm/wrappers/default:$PATH
+# hack hack hack -- remove!!
+RUN ln -s /usr/local/rvm/wrappers/default/ruby /usr/bin/ruby
 
 # hadolint ignore=DL3059
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8 \
