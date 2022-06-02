@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - release
+      - release-test
   workflow_dispatch:
 
 env:
@@ -52,8 +52,6 @@ jobs:
   release:
     needs: [determine-tag, build]
     runs-on: ubuntu-latest
-    env:
-      TAG: ${{ needs.determine-tag.outputs.tag }}
     steps:
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@master
@@ -94,17 +92,11 @@ jobs:
           GIT_COMMITTER_NAME: BrewTestBot
           GIT_COMMITTER_EMAIL: 1589480+BrewTestBot@users.noreply.github.com
 
-      - name: Push tag
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          gh release create "${TAG}" bottles/*.bottle.[0-9]*.tar.gz --notes "Portable Ruby ${TAG}" --target "$(git rev-parse --verify HEAD)"
-
       - name: Upload to GitHub Releases
         working-directory: bottles
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
-        run: brew pr-upload --upload-only --root-url=https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}
+        run: brew pr-upload --upload-only --root-url=https://github.com/${GITHUB_REPOSITORY}/releases/download/${{ needs.determine-tag.outputs.tag }}
 
       - name: Cleanup
         run: rm -rvf bottles
