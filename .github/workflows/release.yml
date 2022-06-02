@@ -39,8 +39,15 @@ jobs:
 
             puts "Preparing for #{tag} release."
             puts "::set-output name=tag::#{tag}"
+        
+      - id: test-step
+        run: |
+          echo "::set-output name=tag::2.6.8"
+          echo '::set-output name=bag::"2.6.8"'
       
       - run: echo "${{ steps.determine-tag.outputs.tag }}"
+      - run: echo "${{ steps.test-step.outputs.tag }}"
+      - run: echo "${{ steps.test-step.outputs.bag }}"
   
   tag-test:
     needs: determine-tag
