@@ -95,7 +95,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${TAG}" bottles/*.bottle.[0-9]*.tar.gz --notes "Portable Ruby ${TAG}"
+          gh release create "${TAG}" bottles/*.bottle.[0-9]*.tar.gz --notes "Portable Ruby ${TAG}" --target "$(git rev-parse --verify HEAD)"
 
       - name: Upload to GitHub Releases
         working-directory: bottles
