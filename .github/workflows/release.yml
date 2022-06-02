@@ -31,20 +31,19 @@ jobs:
 
       - name: Determine tag
         id: determine-tagg
-        with:
-          script: |
-            brew ruby -e "$(cat<<EOS
-            require "formula"
+        run: |
+          brew ruby -e "$(cat<<EOS
+          require "formula"
 
-            tag = Formula["portable-ruby"].pkg_version.to_s
+          tag = Formula["portable-ruby"].pkg_version.to_s
 
-            existing_tag = Utils.safe_popen_read("git", "tag", "--list", tag)
-            raise "Tag #{tag} already exists" if existing_tag.present?
+          existing_tag = Utils.safe_popen_read("git", "tag", "--list", tag)
+          raise "Tag #{tag} already exists" if existing_tag.present?
 
-            puts "Preparing for #{tag} release."
-            puts "::set-output name=tag::#{tag}"
-            EOS
-            )"
+          puts "Preparing for #{tag} release."
+          puts "::set-output name=tag::#{tag}"
+          EOS
+          )"
         
       - id: test-step
         run: brew ruby -e 'puts "::set-output name=tag::2.6.8"'
