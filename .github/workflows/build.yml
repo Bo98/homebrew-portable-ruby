@@ -41,7 +41,7 @@ jobs:
             brew portable-package --verbose portable-ruby
           else
             docker run --name=homebrew-portable -w /bottle \
-              -v $(pwd):/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-portable-ruby \
+              -v $(pwd):/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/${GITHUB_REPOSITORY,,} \
               homebrew-portable brew portable-package --verbose portable-ruby
             docker cp homebrew-portable:/bottle .
           fi
