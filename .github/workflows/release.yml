@@ -22,7 +22,7 @@ jobs:
   determine-tag:
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.determine-tagg.outputs.tag }}
+      tag: ${{ steps.determine-tag.outputs.tag }}
     steps:
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@master
@@ -30,7 +30,7 @@ jobs:
           test-bot: false
 
       - name: Determine tag
-        id: determine-tagg
+        id: determine-tag
         run: |
           brew ruby -e "$(cat<<EOS
           require "formula"
@@ -44,21 +44,6 @@ jobs:
           puts "::set-output name=tag::#{tag}"
           EOS
           )"
-        
-      - id: test-step
-        run: brew ruby -e 'puts "::set-output name=tag::2.6.8"'
-      
-      - run: echo "${{ steps.determine-tagg.outputs.tag }}"
-      - run: echo "${{ steps.test-step.outputs.tag }}"
-  
-  tag-test:
-    needs: determine-tag
-    runs-on: ubuntu-latest
-    env:
-      TAG: ${{ needs.determine-tag.outputs.tag }}
-    steps:
-      - name: Install gems
-        run: echo "${TAG}"
 
   build:
     needs: determine-tag
@@ -74,6 +59,8 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@master
         with:
           test-bot: false
+      
+      - run: mv /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/bo98/homebrew-portable-ruby /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-portable-ruby
 
       - name: Install gems
         run: brew install-bundler-gems
