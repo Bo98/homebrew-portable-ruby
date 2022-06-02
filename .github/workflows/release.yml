@@ -39,6 +39,8 @@ jobs:
 
             puts "Preparing for #{tag} release."
             puts "::set-output name=tag::#{tag}"
+      
+      - run: echo "${{ steps.determine-tag.outputs.tag }}"
   
   tag-test:
     needs: determine-tag
