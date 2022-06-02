@@ -31,9 +31,9 @@ jobs:
 
       - name: Determine tag
         id: determine-tagg
-        uses: Homebrew/actions/brew-script@master
         with:
           script: |
+            brew ruby -e "$(cat<<EOS
             require "formula"
 
             tag = Formula["portable-ruby"].pkg_version.to_s
@@ -43,6 +43,8 @@ jobs:
 
             puts "Preparing for #{tag} release."
             puts "::set-output name=tag::#{tag}"
+            EOS
+            )"
         
       - id: test-step
         run: brew ruby -e 'puts "::set-output name=tag::2.6.8"'
