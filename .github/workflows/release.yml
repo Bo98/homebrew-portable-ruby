@@ -10,11 +10,15 @@ permissions:
   contents: write
   packages: write
 
+concurrency:
+  group: "${{ github.ref }}"
+  cancel-in-progress: true
+
 jobs:
   determine-tag:
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{steps.determine-tag.outputs.tag}}
+      tag: ${{ steps.determine-tag.outputs.tag }}
     steps:
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@master
@@ -33,7 +37,17 @@ jobs:
             existing_tag = Utils.safe_popen_read("git", "tag", "--list", tag)
             raise "Tag #{tag} already exists" if existing_tag.present?
 
+            puts "Preparing for #{tag} release."
             puts "::set-output name=tag::#{tag}"
+  
+  tag-test:
+    needs: determine-tag
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ needs.determine-tag.outputs.tag }}
+    steps:
+      - name: Install gems
+        run: echo "${TAG}"
 
   build:
     needs: determine-tag
