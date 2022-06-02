@@ -86,15 +86,18 @@ jobs:
         uses: Homebrew/actions/git-try-push@master
         with:
           token: ${{ github.token }}
+          branch: ${{ github.ref_name }}
         env:
           GIT_COMMITTER_NAME: BrewTestBot
           GIT_COMMITTER_EMAIL: 1589480+BrewTestBot@users.noreply.github.com
 
       - name: Push tag
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           gh release create "${TAG}" bottles/*.bottle.[0-9]*.tar.gz --notes "Portable Ruby ${TAG}"
 
-      - name: Uplaod to GitHub Releases
+      - name: Upload to GitHub Releases
         working-directory: bottles
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
