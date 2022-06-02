@@ -56,11 +56,6 @@ jobs:
       - name: Configure Git user
         uses: Homebrew/actions/git-user-config@master
 
-      - name: Set up commit signing
-        uses: Homebrew/actions/setup-commit-signing@master
-        with:
-          signing_key: ${{ secrets.BREWTESTBOT_GPG_SIGNING_SUBKEY }}
-
       - name: Setup directory
         run: mkdir bottles
 
@@ -84,7 +79,6 @@ jobs:
         env:
           GIT_COMMITTER_NAME: BrewTestBot
           GIT_COMMITTER_EMAIL: 1589480+BrewTestBot@users.noreply.github.com
-          HOMEBREW_GPG_PASSPHRASE: ${{ secrets.BREWTESTBOT_GPG_SIGNING_SUBKEY_PASSPHRASE }}
 
       - name: Push tag
         run: |
