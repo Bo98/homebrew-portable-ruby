@@ -59,6 +59,9 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@master
         with:
           test-bot: false
+      
+      - name: Checkout branch
+        run: git checkout "${{ github.ref_name }}"
 
       - name: Install gems
         run: brew install-bundler-gems
