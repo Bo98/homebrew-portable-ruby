@@ -79,9 +79,10 @@ jobs:
       - name: Upload to GitHub Packages
         working-directory: bottles
         env:
+          BREWTESTBOT_NAME_EMAIL: "BrewTestBot <1589480+BrewTestBot@users.noreply.github.com>"
           HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.actor }}
           HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ github.token }}
-        run: brew pr-upload --root-url=https://ghcr.io/v2/${GITHUB_REPOSITORY_OWNER,,}/portable-ruby
+        run: brew pr-upload --committer="$BREWTESTBOT_NAME_EMAIL" --root-url=https://ghcr.io/v2/${GITHUB_REPOSITORY_OWNER,,}/portable-ruby
 
       - name: Push commits
         uses: Homebrew/actions/git-try-push@master
