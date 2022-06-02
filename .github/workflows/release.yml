@@ -26,6 +26,8 @@ jobs:
         uses: Homebrew/actions/brew-script@master
         with:
           script: |
+            require "formula"
+
             tag = Formula["portable-ruby"].pkg_version.to_s
 
             existing_tag = Utils.safe_popen_read("git", "tag", "--list", tag)
