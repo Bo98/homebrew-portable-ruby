@@ -60,7 +60,7 @@ jobs:
         with:
           test-bot: false
       
-      - run: mv /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/bo98/homebrew-portable-ruby /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-portable-ruby
+      - run: ln -s /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/bo98/homebrew-portable-ruby /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-portable-ruby
 
       - name: Install gems
         run: brew install-bundler-gems
