@@ -6,6 +6,10 @@ on:
       - release
   workflow_dispatch:
 
+env:
+  HOMEBREW_DEVELOPER: 1
+  HOMEBREW_NO_AUTO_UPDATE: 1
+
 permissions:
   contents: write
   packages: write
