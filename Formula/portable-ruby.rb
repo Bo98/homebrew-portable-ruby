@@ -7,10 +7,10 @@ class PortableRuby < PortableFormula
   url "https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.8.tar.xz"
   sha256 "8262e4663169c85787fdc9bfbd04d9eb86eb2a4b56d7f98373a8fcaa18e593eb"
   license "Ruby"
+  revision 1
 
   bottle do
     root_url "https://ghcr.io/v2/homebrew/portable-ruby"
-    rebuild 1
     sha256 cellar: :any_skip_relocation, big_sur:      "61a926d5df079b9b82c55226af7f9f68f1c4860a604d7a885518b03ea937ad38"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "7691711b996c29190cde7142751ab6679246f0c54c651b6a02a67ca932a58517"
   end
