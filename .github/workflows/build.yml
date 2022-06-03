@@ -38,11 +38,11 @@ jobs:
           if [ "$RUNNER_OS" = 'macOS' ]; then
             mkdir -p bottle/
             cd bottle
-            brew portable-package --verbose portable-ruby
+            brew portable-package --no-rebuild --verbose portable-ruby
           else
             docker run --name=homebrew-portable -w /bottle \
               -v $(pwd):/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/${GITHUB_REPOSITORY,,} \
-              homebrew-portable brew portable-package --verbose portable-ruby
+              homebrew-portable brew portable-package --no-rebuild --verbose portable-ruby
             docker cp homebrew-portable:/bottle .
           fi
 
