@@ -48,7 +48,7 @@ module Homebrew
 
         bottled_deps, deps = deps.partition { |dep| dep == "glibc@2.13" }
 
-        safe_system "brew", "install", *verbose, *bottled_deps
+        safe_system "brew", "install", "--debug", *verbose, *bottled_deps
 
         # Build bottles for all other dependencies.
         safe_system "brew", "install", "--build-bottle", *verbose, *deps
