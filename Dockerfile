@@ -1,4 +1,4 @@
-ARG img=homebrew/debian7
+ARG img=homebrew/ubuntu16.04
 # hadolint ignore=DL3006
 FROM ${img}
 ARG img
