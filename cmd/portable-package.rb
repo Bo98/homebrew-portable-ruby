@@ -26,6 +26,11 @@ module Homebrew
     args = portable_package_args.parse
 
     ENV["HOMEBREW_DEVELOPER"] = "1"
+    
+    p `ls -l /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps`
+    p `ls -l /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/bo98`
+    p `ls -l /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/bo98/homebrew-portable-ruby`
+    p `ls -l /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/bo98/homebrew-portable-ruby/.git`
 
     verbose = []
     verbose << "--verbose" if args.verbose?
