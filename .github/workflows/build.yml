@@ -15,7 +15,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: ["10.11-cross", "11-arm64", "ubuntu-latest"]
+        os: ["ubuntu-latest"]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
