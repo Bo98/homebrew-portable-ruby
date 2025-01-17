@@ -2,7 +2,6 @@ name: CI
 
 on:
   push:
-    branches: master
   pull_request:
 
 permissions:
@@ -23,7 +22,6 @@ jobs:
 
   build:
     needs: syntax
-    if: github.event_name != 'push'
     uses: ./.github/workflows/build.yml
 
   # This job is used as a required status check, instead of requiring each build matrix element.
