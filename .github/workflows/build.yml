@@ -15,11 +15,14 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: '10.11-cross-${{github.run_id}}'
-          - os: '11-arm64-cross-${{github.run_id}}'
-          - os: 'ubuntu-latest'
+          - os: 10.11-cross-${{github.run_id}}
+          - os: 11-arm64-cross-${{github.run_id}}
+          - os: ubuntu-latest
             container: '{"image": "ghcr.io/homebrew/ubuntu22.04:master", "options": "--user=linuxbrew"}'
             workdir: /github/home
+          - os: ubuntu-22.04-arm
+            container: rubylang/ruby:3.3.7-jammy
+            bootstrap: true
       fail-fast: false
     runs-on: ${{matrix.os}}
     container: ${{matrix.container && fromJSON(matrix.container) || ''}}
@@ -27,6 +30,14 @@ jobs:
       run:
         working-directory: ${{matrix.workdir || github.workspace}}
     steps:
+      - name: Bootstrap
+        if: matrix.bootstrap
+        run: |
+          apt-get install -y --no-install-recommends git gcc make
+          mkdir -p /home/linuxbrew/.linuxbrew
+          git clone https://github.com/Homebrew/brew /home/linuxbrew/.linuxbrew/Homebrew
+          ln -s ../Homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew
+
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@master
 
